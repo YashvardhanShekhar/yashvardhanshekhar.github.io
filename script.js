@@ -92,29 +92,29 @@ document.addEventListener("DOMContentLoaded", () => {
 		);
 
 		// Inject left + right arrow buttons inside the wrap
-	// 	const btnLeft = document.createElement("button");
-	// 	btnLeft.className = "proj-btn proj-btn--left";
-	// 	btnLeft.innerHTML = "&#8592;";
+		// const btnLeft = document.createElement("button");
+		// btnLeft.className = "proj-btn proj-btn--left";
+		// btnLeft.innerHTML = "&#8592;";
 
-	// 	const btnRight = document.createElement("button");
-	// 	btnRight.className = "proj-btn proj-btn--right";
-	// 	btnRight.innerHTML = "&#8594;";
+		// const btnRight = document.createElement("button");
+		// btnRight.className = "proj-btn proj-btn--right";
+		// btnRight.innerHTML = "&#8594;";
 
-	// 	wrap.appendChild(btnLeft);
-	// 	wrap.appendChild(btnRight);
+		// wrap.appendChild(btnLeft);
+		// wrap.appendChild(btnRight);
 
-	// 	const STEP = 400;
+		// const STEP = 400;
 
-	// 	btnLeft.addEventListener("click", () => {
-	// 		track.scrollLeft -= STEP;
-	// 		pauseThenResume();
-	// 	});
+		// btnLeft.addEventListener("click", () => {
+		// 	track.scrollLeft -= STEP;
+		// 	pauseThenResume();
+		// });
 
-	// 	btnRight.addEventListener("click", () => {
-	// 		track.scrollLeft += STEP;
-	// 		pauseThenResume();
-	// 	});
-	// }
+		// btnRight.addEventListener("click", () => {
+		// 	track.scrollLeft += STEP;
+		// 	pauseThenResume();
+		// });
+	}
 
 	const isTouchDevice = () => window.matchMedia("(pointer: coarse)").matches;
 	if (!isTouchDevice()) {
