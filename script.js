@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		contact: "#8ef59b",
 	};
 
+	// Set initial state
 	document.getElementById("about").classList.add("active");
 	document.querySelector('nav a[data-page="about"]').classList.add("active");
 	nav.style.backgroundColor = pageColors.about;
@@ -23,14 +24,17 @@ document.addEventListener("DOMContentLoaded", () => {
 		pages.forEach((p) => p.classList.remove("active"));
 		const target = document.getElementById(pageId);
 		if (target) target.classList.add("active");
+
 		const color = pageColors[pageId];
 		if (color) {
 			nav.style.backgroundColor = color;
 			body.style.backgroundColor = color;
 		}
+
 		links.forEach((l) => l.classList.remove("active"));
 		const al = document.querySelector(`nav a[data-page="${pageId}"]`);
 		if (al) al.classList.add("active");
+
 		window.scrollTo({ top: 0, behavior: "smooth" });
 	}
 
@@ -40,6 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			switchPage(l.dataset.page);
 		}),
 	);
+
 	mobileLinks.forEach((l) =>
 		l.addEventListener("click", (e) => {
 			e.preventDefault();
@@ -60,16 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		body.style.overflow = open ? "hidden" : "";
 	});
 
-	// ── PROJECTS SCROLL ──
+	// ── PROJECTS TRACK — pause on wheel / trackpad scroll ──
 	const track = document.getElementById("projectsTrack");
 	const wrap = track ? track.closest(".projects-track-wrap") : null;
 
 	if (track && wrap) {
-		track.style.overflowX = "scroll";
-		track.style.scrollbarWidth = "none";
-		track.style.msOverflowStyle = "none";
-
-		// Two-finger / trackpad scroll
 		let resumeTimer;
 		function pauseThenResume() {
 			track.style.animationPlayState = "paused";
@@ -84,39 +84,41 @@ document.addEventListener("DOMContentLoaded", () => {
 			(e) => {
 				if (Math.abs(e.deltaX) > 0 || e.shiftKey) {
 					e.preventDefault();
-					track.scrollLeft += e.deltaX || e.deltaY;
 					pauseThenResume();
 				}
 			},
 			{ passive: false },
 		);
-
-		// Inject left + right arrow buttons inside the wrap
-		// const btnLeft = document.createElement("button");
-		// btnLeft.className = "proj-btn proj-btn--left";
-		// btnLeft.innerHTML = "&#8592;";
-
-		// const btnRight = document.createElement("button");
-		// btnRight.className = "proj-btn proj-btn--right";
-		// btnRight.innerHTML = "&#8594;";
-
-		// wrap.appendChild(btnLeft);
-		// wrap.appendChild(btnRight);
-
-		// const STEP = 400;
-
-		// btnLeft.addEventListener("click", () => {
-		// 	track.scrollLeft -= STEP;
-		// 	pauseThenResume();
-		// });
-
-		// btnRight.addEventListener("click", () => {
-		// 	track.scrollLeft += STEP;
-		// 	pauseThenResume();
-		// });
 	}
 
+	// ── VIDEO HOVER PLAY ──
+	document.querySelectorAll(".project-card").forEach((card) => {
+		const video = card.querySelector("video");
+		if (!video) return;
+
+		card.addEventListener("mouseenter", () => {
+			video.play().catch(() => {});
+		});
+		card.addEventListener("mouseleave", () => {
+			video.pause();
+			video.currentTime = 0;
+		});
+
+		// Touch devices: tap to toggle
+		card.addEventListener("click", (e) => {
+			// Don't intercept link clicks
+			if (e.target.closest("a")) return;
+			if (video.paused) {
+				video.play().catch(() => {});
+			} else {
+				video.pause();
+			}
+		});
+	});
+
+	// ── CUSTOM CURSOR (desktop only) ──
 	const isTouchDevice = () => window.matchMedia("(pointer: coarse)").matches;
+
 	if (!isTouchDevice()) {
 		const inner = document.getElementById("cursorInner");
 		const outer = document.getElementById("cursorOuter");
